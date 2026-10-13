@@ -240,8 +240,9 @@ else if(C.hat==2){const cg=c.createLinearGradient(0,-14,0,0);cg.addColorStop(0,s
 c.strokeStyle=shd(co,-.25);c.lineWidth=.8;for(let k=-3;k<=3;k++){c.beginPath();c.moveTo(k*2.8,-1);c.lineTo(k*2.4,-11);c.stroke()}c.fillStyle=shd(co,-.12);c.beginPath();c.roundRect(-11.2,-2.5,22.4,4.5,2);c.fill();ol(c,.8);
 c.fillStyle='#fff';c.beginPath();c.arc(0,-15,3.6+Math.sin(t*3)*.2,0,7);c.fill();ol(c,.8)}}
 function drawHairBack(c,C,t){const h=CHC[C.hc],hg=c.createRadialGradient(-3,-4,1,0,0,12);hg.addColorStop(0,shd(h,.18));hg.addColorStop(1,shd(h,-.15));c.fillStyle=hg;
-if(C.g=='f'){const sw=Math.sin(t*1.6)*1.2;c.beginPath();c.moveTo(-10.5,-2);c.quadraticCurveTo(-13,10,-9+sw,18);c.quadraticCurveTo(0,21,9+sw,18);c.quadraticCurveTo(13,10,10.5,-2);c.arc(0,0,10.6,0,Math.PI,true);c.fill();ol(c);
-c.strokeStyle=shd(h,-.3);c.lineWidth=.8;for(const k of[-5,0,5]){c.beginPath();c.moveTo(k*.8,4);c.quadraticCurveTo(k*1.1,12,k+sw,18);c.stroke()}
+if(C.g=='f'){const sw=Math.sin(t*1.6)*1.2;c.beginPath();c.arc(0,0,10.6,0,7);c.fill();ol(c);
+c.beginPath();c.moveTo(-10,1);c.bezierCurveTo(-11.5,7,-9+sw*.5,11,-7.5+sw,15.5);c.quadraticCurveTo(-5+sw,13.5,-4+sw,16.5);c.quadraticCurveTo(-1.5+sw,14,0+sw,17);c.quadraticCurveTo(1.5+sw,14,4+sw,16.5);c.quadraticCurveTo(5+sw,13.5,7.5+sw,15.5);c.bezierCurveTo(9+sw*.5,11,11.5,7,10,1);c.closePath();c.fill();ol(c);
+c.strokeStyle=shd(h,-.3);c.lineWidth=.7;for(const k of[-4.5,0,4.5]){c.beginPath();c.moveTo(k*.7,3);c.quadraticCurveTo(k*1.05,10,k*.9+sw,14.5);c.stroke()}c.fillStyle=shd(h,.25);c.globalAlpha=.5;c.beginPath();c.ellipse(-3.5,-4,4,2,-.5,0,7);c.fill();c.globalAlpha=1;
 if(C.hat==3){c.fillStyle='#ff8fb3';for(const sd of[-1,1]){c.beginPath();c.moveTo(0,-6);c.quadraticCurveTo(sd*7,-11,sd*7,-4);c.quadraticCurveTo(sd*5,-2,0,-6);c.fill();ol(c,.8)}c.fillStyle='#ff6f9e';c.beginPath();c.arc(0,-6,1.8,0,7);c.fill()}}
 else{c.beginPath();c.arc(0,0,10.6,0,7);c.fill();ol(c);c.fillStyle=shd(h,-.1);for(let k=-2;k<=2;k++){c.beginPath();c.ellipse(k*3.6,8,2.4,3.2,k*.15,0,7);c.fill()}
 if(C.hat==3){c.fillStyle=shd(h,.1);for(let k=-2;k<=2;k++){c.beginPath();c.ellipse(k*3.4,-8.5,3,3.6,k*.4,0,7);c.fill()}c.fillStyle=shd(h,.3);c.beginPath();c.ellipse(-3,-5,3,1.5,-.4,0,7);c.fill()}}}
