@@ -450,7 +450,7 @@ rl.gw+=(rl.gw0*(rl.mode=='burst'?.75:rl.mode=='rest'?1.35:1)-rl.gw)*.08;
 if(rl.mode=='burst'){rl.gv+=(rl.tg-rl.gz)*.0055*F.p*(MAP.calm||1);rl.gv*=.9}else{rl.gv+=(Math.random()-.5)*rl.sp*(rl.mode=='rest'?.3:F.w*1.4)*(MAP.calm||1);rl.gv*=rl.mode=='rest'?.9:.96}if(MAP.flow&&rl.mode!='rest')rl.gv+=.00016*Math.sin(now/1100);rl.gz+=rl.gv;
 if(rl.gz<rl.gw/2||rl.gz>1-rl.gw/2){rl.gv*=-.5;rl.gz=Math.max(rl.gw/2,Math.min(1-rl.gw/2,rl.gz))}
 rl.in=Math.abs(rl.ten-rl.gz)<rl.gw/2;if(hold&&now-lastClk>(rl.in?70:110)){lastClk=now;sfx('click')}rl.prog+=rl.in?.00045*RODS[sv.rod][4]/(1+SPEC[fish[0]].r*.2)/MAP.diff*(rl.mode=='burst'?.4:rl.mode=='rest'?1.7:1):-.0008*(MAP.slip||1);
-bob.x=rl.bx+(PX-rl.bx)*Math.max(0,rl.prog);bob.y=rl.by+(PY-16-rl.by)*Math.max(0,rl.prog);
+{const ex=PX+(rl.bx<PX-10?-52:52),ey=PY-34;bob.x=rl.bx+(ex-rl.bx)*Math.max(0,rl.prog);bob.y=rl.by+(ey-rl.by)*Math.max(0,rl.prog)}
 if(rl.prog>=1)land();else if(rl.prog<=0){sfx('snap');snapT=performance.now();pop(bob.x,bob.y-20,'SNAP!','#ff6b6b');splash(bob.x,bob.y,12);st='idle';btn.textContent='Cast';log.textContent='';feed(`<span style="opacity:.6">💥 A ${fish[0]} snapped the line</span>`,0)}}
 const shk=st=='reel'&&rl.mode=='burst'?2.5:0,shx=(Math.random()-.5)*shk*2,shy=(Math.random()-.5)*shk*2;ST(1,0,0,1,0,0);g.fillStyle='#000';g.fillRect(0,0,VW,VH);ST(KB,0,0,KB,VW/2-240*KB+shx,HZ-HZ*KB+shy+TY);const BL=240-VW/(2*KB),BR=240+VW/(2*KB);const tod=window.TOD??(s/300+.2)%1,[sT,sB,sM]=skyAt(tod),nf=tod<.7?0:tod<.76?(tod-.7)/.06:tod<.95?1:(1-tod)/.05;
 let gr=g.createLinearGradient(0,0,0,HZ);gr.addColorStop(0,sT);gr.addColorStop(1,sB);g.fillStyle=sT;g.fillRect(-2000,-3000,4480,3000);g.fillStyle=gr;g.fillRect(-2000,0,4480,HZ);
