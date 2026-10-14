@@ -6,6 +6,9 @@ create table if not exists public.saves (
   updated_at timestamptz default now()
 );
 alter table public.saves enable row level security;
+drop policy if exists "read own save" on public.saves;
+drop policy if exists "create own save" on public.saves;
+drop policy if exists "update own save" on public.saves;
 create policy "read own save"   on public.saves for select using (auth.uid() = user_id);
 create policy "create own save" on public.saves for insert with check (auth.uid() = user_id);
 create policy "update own save" on public.saves for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
