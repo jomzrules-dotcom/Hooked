@@ -698,7 +698,7 @@ g.strokeStyle='rgba(255,233,74,.4)';g.beginPath();g.arc(bob.x,jy,14,0,7);g.strok
 hud();requestAnimationFrame(draw)}
 addEventListener('pointerup',()=>{if(st=='card')setTimeout(()=>ready=true,150)});addEventListener('keyup',e=>{if(e.code=='Space'&&st=='card')ready=true});
 
-const SB={url:'',key:''},sbOn=()=>!!(SB.url&&SB.key);
+const SB={url:'https://ekkucrillfmmapvhpsnc.supabase.co',key:'sb_publishable_212nnM9eIGaVUJuvRZyjlQ_7lHmHcpp'},sbOn=()=>!!(SB.url&&SB.key);
 let SBS=null;try{SBS=JSON.parse(localStorage.getItem('hkSess')||'null')}catch(e){}
 let acPushT=0,acLast=0,acBusy=false,acPend=null,AC_MODE='out',AC_TAB='in',AC_D=null;
 const sbH=t=>{const h={apikey:SB.key,'Content-Type':'application/json'};if(t)h.Authorization='Bearer '+t;return h};
