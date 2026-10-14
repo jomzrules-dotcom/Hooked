@@ -37,6 +37,8 @@ create table if not exists public.hk_saves (
   hats           text[] default '{}',
   maps_completed text[] default '{}',
   character      jsonb,
+  lures_owned    text[] default '{}',
+  lure_equipped  text,
   data           jsonb not null default '{}',
   updated_at     timestamptz not null default now()
 );
@@ -47,6 +49,9 @@ alter table public.hk_sessions enable row level security;
 alter table public.hk_saves    enable row level security;
 revoke all on public.hk_accounts, public.hk_sessions, public.hk_saves from anon, authenticated;
 
+alter table public.hk_saves add column if not exists lures_owned text[] default '{}';
+alter table public.hk_saves add column if not exists lure_equipped text;
+
 create or replace function public.hk_txt(j jsonb) returns text[] language sql immutable as $$
   select coalesce(array(select jsonb_array_elements_text(case when jsonb_typeof(j)='array' then j else '[]'::jsonb end)), '{}')
 $$;
@@ -55,19 +60,19 @@ create or replace function public.hk_write(p_acc uuid, p_data jsonb, p_cols json
 language plpgsql security definer set search_path = public as $$
 begin
   insert into hk_saves(account_id, username, level, xp, coins, species, fish_caught, fish_best_cm, fish_counts,
-                       rods_owned, rod_equipped, bait, bait_equipped, hats, maps_completed, character, data, updated_at)
+                       rods_owned, rod_equipped, bait, bait_equipped, hats, maps_completed, character, lures_owned, lure_equipped, data, updated_at)
   select p_acc, a.username,
          coalesce((p_cols->>'level')::int,1), coalesce((p_cols->>'xp')::int,0), coalesce((p_cols->>'coins')::int,0),
          coalesce((p_cols->>'species')::int,0), hk_txt(p_cols->'fish_caught'), coalesce(p_cols->'fish_best_cm','{}'),
          coalesce(p_cols->'fish_counts','{}'), hk_txt(p_cols->'rods_owned'), p_cols->>'rod_equipped',
          coalesce(p_cols->'bait','{}'), p_cols->>'bait_equipped', hk_txt(p_cols->'hats'), hk_txt(p_cols->'maps_completed'),
-         p_cols->'character', coalesce(p_data,'{}'), now()
+         p_cols->'character', hk_txt(p_cols->'lures_owned'), p_cols->>'lure_equipped', coalesce(p_data,'{}'), now()
   from hk_accounts a where a.id = p_acc
   on conflict (account_id) do update set
     username=excluded.username, level=excluded.level, xp=excluded.xp, coins=excluded.coins, species=excluded.species,
     fish_caught=excluded.fish_caught, fish_best_cm=excluded.fish_best_cm, fish_counts=excluded.fish_counts,
     rods_owned=excluded.rods_owned, rod_equipped=excluded.rod_equipped, bait=excluded.bait, bait_equipped=excluded.bait_equipped,
-    hats=excluded.hats, maps_completed=excluded.maps_completed, character=excluded.character, data=excluded.data, updated_at=now();
+    hats=excluded.hats, maps_completed=excluded.maps_completed, character=excluded.character, lures_owned=excluded.lures_owned, lure_equipped=excluded.lure_equipped, data=excluded.data, updated_at=now();
 end $$;
 
 create or replace function public.hk_new_session(p_acc uuid) returns text
